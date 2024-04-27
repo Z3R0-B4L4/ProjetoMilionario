@@ -17,7 +17,6 @@ l = 0 # loss dos 50% de cada operação
 rendimento = 0 # rendimento de cada operação
 banca = 0 # banca de cada dia
 x1 = 0 # contador para o break do stop loss
-x2 = 0 # contador para o break do stop loss
 bd = open('Gerenciamento.txt','a') # bd é tipo um banco de dados, ele utiliza a função open para abrir o aquivo txt com nome Gerenciamento e o parametro "a" que ele recebe após a virgula é para que caso algo seja adicionado nele, que seja adicionado no final do documento
 
 # "a" é usado pra saber o total de lucro objetivo naquele dia (1 = segunda, 2 = terça, 3 = quarta, 4 = quinta, 5 = sexta, sabado e domingo não serão dias operaveis, descanse e aproveite a vida)
@@ -39,7 +38,6 @@ s=float(input("Digite sua banca: ")) # <--- BANCA ---><--- BANCA ---><--- BANCA 
 bd.write(f"{dft} - Banca Inicial: {s}\n")
 while True:
     loop +=1
-    
     if loop > 10:
         break 
     print(f"{loop}° loop ")
@@ -52,13 +50,14 @@ while True:
         print(f"Você deve usar {d1:.2f}")
         bd.write(f"\n{df} Entrada de: R${d1:.2f}\n")
         opt = int(input("Você ganhou? 1 para sim 0 para não: "))
-        
+
         if opt == 0:
             l += l - d1
             rendimento += l+d1
             banca += rendimento
             bd.write(f"{df} - loss: R${l:.2f}\n")
             l = 0
+            x2+=1
         while opt == 1:
             d1 = d1*1.5
             i += 1
@@ -82,6 +81,7 @@ while True:
             if i== 5:
                 i=1
                 print(f"Você ja ganhou o dia!")
+                x1 = 0
                 break
                
         if opt == 0:
@@ -97,6 +97,10 @@ while True:
             bd.write(f"{df} - loss: R${l:.2f}\n")
             w=0
             l=0
+
+        if x1 == 3: # Stop loss
+            print("Você ja perdeu muito hoje, va descansar.")
+            break
     
     elif p == 0:
         if loop > 10:
@@ -111,5 +115,5 @@ bd.write(f"{dft} - Rendimento: {rendimento:.2f} / Banca: {(banca):.2f}\n--------
 rendimento = 0
 banca = 0
 
-# Soma com um pequeno erro de calculo de alguns cents
-# Desenvolver um break pra parar após 3 loss seguidas de diferença entre as wins Ex: 6 wins com 3 loss consecutivas = break
+# Soma e subtração de algum jeito estão todos errados, refazer
+# Stop loss aparentemente funcionando com 3 loss seguidas
