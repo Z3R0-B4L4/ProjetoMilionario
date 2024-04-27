@@ -57,7 +57,7 @@ while True:
             banca += rendimento
             bd.write(f"{df} - loss: R${l:.2f}\n")
             l = 0
-            x2+=1
+            x1+=1
         while opt == 1:
             d1 = d1*1.5
             i += 1
