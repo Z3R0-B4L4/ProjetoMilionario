@@ -9,6 +9,7 @@ data = datetime.now() # captura a data e horario atual
 df=data.strftime('%d/%m/%Y %H:%M') # formata a data para o padrão brasileiro e mostra o horario junto
 dft=data.strftime('%d/%m/%Y') # formata a data para o padrão brasileiro (data especifica para o total)
 
+t=0 # "t" total
 loop = 0 
 d1 = 0 # "d" = dia
 i=1 # "i" um contador para por limite
@@ -35,6 +36,7 @@ print("Não precisa ser hoje nem amanhã, mas um dia o objetivo é alcançado")
 print("AJA COM CALMA E CONFIE NO SEU SONHO QUE VOCÊ IRA ALCANÇAR O SUCESSO 100% DE CERTEZA.\n")
 
 s=float(input("Digite sua banca: ")) # <--- BANCA ---><--- BANCA ---><--- BANCA ---><--- BANCA ---><--- BANCA ---><--- BANCA ---><--- BANCA ---><--- BANCA ---><--- BANCA --->
+banca = s
 bd.write(f"{dft} - Banca Inicial: {s}\n")
 while True:
     loop +=1
@@ -47,14 +49,14 @@ while True:
     p = int(input("Digite 1 para prosseguir\n"))
     if p==1:
         d1=s*0.1 # 10% da banca
+        banca += -d1
         print(f"Você deve usar {d1:.2f}")
         bd.write(f"\n{df} Entrada de: R${d1:.2f}\n")
         opt = int(input("Você ganhou? 1 para sim 0 para não: "))
 
         if opt == 0:
             l += l - d1
-            rendimento += l+d1
-            banca += rendimento - (s*0.1)
+            rendimento += -d1
             bd.write(f"{df} - loss: R${l:.2f}\n")
             l = 0
             x1+=1
@@ -66,21 +68,21 @@ while True:
             
             if opt == 1:
                 w += d1*1.92 # Lucro de 92%
-                rendimento += w-d1 
-                bd.write(f"{df} - win: R${d1:.2f}\n")
+                t += w
+                rendimento += w
+                bd.write(f"{df} - win: R${w:.2f}\n")
             elif opt == 0:
                 w += d1*1.92
+                t += w - (s*0.1)
                 l += l - d1
-                rendimento += w-d1
-                banca += rendimento - (s*0.1)
-                bd.write(f"{df} - win: R${d1:.2f}\n")
+                rendimento += w
+                bd.write(f"{df} - win: R${rendimento:.2f}\n")
                 bd.write(f"{df} - loss: R${l:.2f}\n")
             w=0
             l=0
             if i== 5:
                 i=1
                 print(f"Você ja ganhou o dia!")
-                banca += rendimento - (s*0.1)
                 x1 = 0
                 break
                
@@ -88,11 +90,11 @@ while True:
             i=1
             d1= s*0.1
             print(f"Você deve usar {d1:.2f}\n")
-            bd.write(f"{dft} - Rendimento: {round(rendimento-(s*0.1),2)}\n-------------------------------------------------------\n")
+            bd.write(f"{dft} - Rendimento: {round(rendimento,2)}\n-------------------------------------------------------\n")
         elif p == 0:
             w += d1*1.92
             l += l - d1
-            rendimento += w-d1
+            rendimento += w
             bd.write(f"{df} - win: R${d1:.2f}\n")
             bd.write(f"{df} - loss: R${l:.2f}\n")
             w=0
@@ -110,9 +112,13 @@ while True:
     
     else:
         print("opção invalida\n")
-
+banca += rendimento
+bancaf = s
+rendimento = banca - bancaf
 bd.write(f"{dft} - Rendimento: {rendimento:.2f} / Banca: {(banca):.2f}\n-------------------------------------------------------\n")
+print(t)
+bd.close()
 rendimento = 0
 banca = 0
 
-# Soma com pequeno erro de algun cents no resultado, não sei como resolver
+# Soma com erro no resultado, não sei como resolver
