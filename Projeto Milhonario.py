@@ -1,5 +1,5 @@
 #Esse é um programa que visa lucrar com base em 10% da sua banca, um jeito de lucrar mais lentamente e deixando uma maior chance de voce não acabar o dia estourando sua banca
-#caso queira operar ele com algo diferente dos 10% altere na linha 49 o valor "0.1" para quanto você ira operar (cada "0.1" é igual a 10%, ou seja, se você quiser ir pro all-win altere o valor para "1" = 100%  ou se quer ir com metade da banca, para "0.5" = 50%)
+#caso queira operar ele com algo diferente dos 10% altere na linha 50 o valor "0.1" para quanto você ira operar (cada "0.1" é igual a 10%, ou seja, se você quiser ir pro all-win altere o valor para "1" = 100%  ou se quer ir com metade da banca, para "0.5" = 50%)
 #Esse programa tambem opera com base na tabela de boringer mas não usa todo o lucro como seria normalmente -/- O PROGRAMA AINDA ESTÁ EM DESENVOLVIMENTO
 
 from datetime import datetime
@@ -12,11 +12,12 @@ dft=data.strftime('%d/%m/%Y') # formata a data para o padrão brasileiro (data e
 loop = 0 
 d1 = 0 # "d" = dia
 i=1 # "i" um contador para por limite
-w = 0 # win de cada dia
-l = 0 # loss de cada dia
+w = 0 # win com a maior % de retorno
+l = 0 # loss dos 50% de cada operação
 rendimento = 0 # rendimento de cada operação
 banca = 0 # banca de cada dia
-x = 0 # mutiplicador para o break do stop loss
+x1 = 0 # contador para o break do stop loss
+x2 = 0 # contador para o break do stop loss
 bd = open('Gerenciamento.txt','a') # bd é tipo um banco de dados, ele utiliza a função open para abrir o aquivo txt com nome Gerenciamento e o parametro "a" que ele recebe após a virgula é para que caso algo seja adicionado nele, que seja adicionado no final do documento
 
 # "a" é usado pra saber o total de lucro objetivo naquele dia (1 = segunda, 2 = terça, 3 = quarta, 4 = quinta, 5 = sexta, sabado e domingo não serão dias operaveis, descanse e aproveite a vida)
@@ -38,6 +39,7 @@ s=float(input("Digite sua banca: ")) # <--- BANCA ---><--- BANCA ---><--- BANCA 
 bd.write(f"{dft} - Banca Inicial: {s}\n")
 while True:
     loop +=1
+    
     if loop > 10:
         break 
     print(f"{loop}° loop ")
@@ -48,31 +50,33 @@ while True:
     if p==1:
         d1=s*0.1 # 10% da banca
         print(f"Você deve usar {d1:.2f}")
-        bd.write(f"{df} Entrada de: R${d1:.2f}\n")
+        bd.write(f"\n{df} Entrada de: R${d1:.2f}\n")
         opt = int(input("Você ganhou? 1 para sim 0 para não: "))
+        
         if opt == 0:
             l += l - d1
             rendimento += l+d1
-            banca += l
-            bd.write(f"{df} - loss: R${round(l,2)}\n")
+            banca += rendimento
+            bd.write(f"{df} - loss: R${l:.2f}\n")
             l = 0
         while opt == 1:
             d1 = d1*1.5
             i += 1
             print(f"Você deve usar {d1:.2f} para a {i}° vez\n")
             opt = int(input("Você ganhou? 1 para sim 0 para não: "))
+            
             if opt == 1:
                 w += d1*1.92 # Lucro de 92%
                 rendimento += w-d1
-                banca += rendimento+l
-                bd.write(f"{df} - win: R${round(w,2)}\n")
+                banca += rendimento 
+                bd.write(f"{df} - win: R${d1:.2f}\n")
             elif opt == 0:
                 w += d1*1.92
                 l += l - d1
                 rendimento += w-d1
-                banca += rendimento+l
-                bd.write(f"{df} - win: R${round(w,2)}\n")
-                bd.write(f"{df} - loss: R${round(l,2)}\n")
+                banca += rendimento
+                bd.write(f"{df} - win: R${d1:.2f}\n")
+                bd.write(f"{df} - loss: R${l:.2f}\n")
             w=0
             l=0
             if i== 5:
@@ -89,19 +93,23 @@ while True:
             w += d1*1.92
             l += l - d1
             rendimento += w-d1
-            banca += w+l
-            bd.write(f"{df} - win: R${round(w,2)}\n")
-            bd.write(f"{df} - loss: R${round(l,2)}\n")
+            bd.write(f"{df} - win: R${d1:.2f}\n")
+            bd.write(f"{df} - loss: R${l:.2f}\n")
             w=0
             l=0
+    
     elif p == 0:
-        print("Indo para o próximo loop\n")
+        if loop > 10:
+            break
+        else:
+            print("Indo para o próximo loop\n")
+    
     else:
         print("opção invalida\n")
 
-bd.write(f"{dft} - Rendimento: {round(rendimento,2)} / Banca: {round((banca+rendimento),2) }\n-------------------------------------------------------\n")
+bd.write(f"{dft} - Rendimento: {rendimento:.2f} / Banca: {(banca):.2f}\n-------------------------------------------------------\n")
 rendimento = 0
 banca = 0
 
-# Concluir o desenvolvimento da soma e subtração para o total
+# Soma com um pequeno erro de calculo de alguns cents
 # Desenvolver um break pra parar após 3 loss seguidas de diferença entre as wins Ex: 6 wins com 3 loss consecutivas = break
