@@ -1,2 +1,2 @@
 # ProjetoMilhonario
-Gerenciador de operações de trade
+Gerenciador de operações de day trade
