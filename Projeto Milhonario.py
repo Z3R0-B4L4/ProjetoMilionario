@@ -1,6 +1,6 @@
 #Esse é um programa que visa lucrar com base em 10% da sua banca, um jeito de lucrar mais lentamente e deixando uma maior chance de voce não acabar o dia estourando sua banca
 #caso queira operar ele com algo diferente dos 10% altere na linha 50 o valor "0.1" para quanto você ira operar (cada "0.1" é igual a 10%, ou seja, se você quiser ir pro all-win altere o valor para "1" = 100%  ou se quer ir com metade da banca, para "0.5" = 50%)
-#Esse programa tambem opera com base na tabela de boringer mas não usa todo o lucro como seria normalmente -/- O PROGRAMA AINDA ESTÁ EM DESENVOLVIMENTO
+#Esse programa tambem opera com base na tabela de boringer mas não usa todo o lucro como seria normalmente -/- O PROGRAMA PODE PRECISAR DE MELHORIAS NÃO LEVE OS RESULTADOS AO PÉ DA LETRA, OS VALORES REAIS PODEM SER UM POUCO DIFERENTES, UTILIZE-OS APENAS COMO BASE
 
 from datetime import datetime
 from datetime import date
@@ -54,7 +54,7 @@ while True:
         if opt == 0:
             l += l - d1
             rendimento += l+d1
-            banca += rendimento
+            banca += rendimento - (s*0.1)
             bd.write(f"{df} - loss: R${l:.2f}\n")
             l = 0
             x1+=1
@@ -66,14 +66,13 @@ while True:
             
             if opt == 1:
                 w += d1*1.92 # Lucro de 92%
-                rendimento += w-d1
-                banca += rendimento 
+                rendimento += w-d1 
                 bd.write(f"{df} - win: R${d1:.2f}\n")
             elif opt == 0:
                 w += d1*1.92
                 l += l - d1
                 rendimento += w-d1
-                banca += rendimento
+                banca += rendimento - (s*0.1)
                 bd.write(f"{df} - win: R${d1:.2f}\n")
                 bd.write(f"{df} - loss: R${l:.2f}\n")
             w=0
@@ -81,6 +80,7 @@ while True:
             if i== 5:
                 i=1
                 print(f"Você ja ganhou o dia!")
+                banca += rendimento - (s*0.1)
                 x1 = 0
                 break
                
@@ -115,5 +115,4 @@ bd.write(f"{dft} - Rendimento: {rendimento:.2f} / Banca: {(banca):.2f}\n--------
 rendimento = 0
 banca = 0
 
-# Soma e subtração de algum jeito estão todos errados, refazer
-# Stop loss aparentemente funcionando com 3 loss seguidas
+# Soma com pequeno erro de algun cents no resultado, não sei como resolver
