@@ -9,7 +9,6 @@ data = datetime.now() # captura a data e horario atual
 df=data.strftime('%d/%m/%Y %H:%M') # formata a data para o padrão brasileiro e mostra o horario junto
 dft=data.strftime('%d/%m/%Y') # formata a data para o padrão brasileiro (data especifica para o total)
 
-t=0 # "t" total
 loop = 0 
 d1 = 0 # "d" = dia
 i=1 # "i" um contador para por limite
@@ -68,12 +67,10 @@ while True:
             
             if opt == 1:
                 w += d1*1.92 # Lucro de 92%
-                t += w
                 rendimento += w
                 bd.write(f"{df} - win: R${w:.2f}\n")
             elif opt == 0:
                 w += d1*1.92
-                t += w - (s*0.1)
                 l += l - d1
                 rendimento += w
                 bd.write(f"{df} - win: R${rendimento:.2f}\n")
@@ -116,7 +113,6 @@ banca += rendimento
 bancaf = s
 rendimento = banca - bancaf
 bd.write(f"{dft} - Rendimento: {rendimento:.2f} / Banca: {(banca):.2f}\n-------------------------------------------------------\n")
-print(t)
 bd.close()
 rendimento = 0
 banca = 0
