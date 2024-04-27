@@ -14,10 +14,10 @@ d1 = 0 # "d" = dia
 i=1 # "i" um contador para por limite
 w = 0 # win de cada dia
 l = 0 # loss de cada dia
-lucro = 0 # lucro para cada operação
+rendimento = 0 # rendimento de cada operação
 banca = 0 # banca de cada dia
 x = 0 # mutiplicador para o break do stop loss
-bd = open('Gerenciamento.txt','a')
+bd = open('Gerenciamento.txt','a') # bd é tipo um banco de dados, ele utiliza a função open para abrir o aquivo txt com nome Gerenciamento e o parametro "a" que ele recebe após a virgula é para que caso algo seja adicionado nele, que seja adicionado no final do documento
 
 # "a" é usado pra saber o total de lucro objetivo naquele dia (1 = segunda, 2 = terça, 3 = quarta, 4 = quinta, 5 = sexta, sabado e domingo não serão dias operaveis, descanse e aproveite a vida)
 a1=7.59 # necessario de 10x a + pra operar com esse valor ou seja 75.00
@@ -48,14 +48,14 @@ while True:
     if p==1:
         d1=s*0.1 # 10% da banca
         print(f"Você deve usar {d1:.2f}")
+        bd.write(f"{df} Entrada de: R${d1:.2f}\n")
         opt = int(input("Você ganhou? 1 para sim 0 para não: "))
         if opt == 0:
-            w += d1*1.92 # Lucro de 92%
             l += l - d1
-            lucro += w-d1
-            banca += w+l
-            bd.write(f"{df} - win: R${round(w,2)}\n")
+            rendimento += l+d1
+            banca += l
             bd.write(f"{df} - loss: R${round(l,2)}\n")
+            l = 0
         while opt == 1:
             d1 = d1*1.5
             i += 1
@@ -63,15 +63,14 @@ while True:
             opt = int(input("Você ganhou? 1 para sim 0 para não: "))
             if opt == 1:
                 w += d1*1.92 # Lucro de 92%
-                l += l - d1
-                lucro += w-d1
-                banca += w+l
+                rendimento += w-d1
+                banca += rendimento+l
                 bd.write(f"{df} - win: R${round(w,2)}\n")
             elif opt == 0:
                 w += d1*1.92
                 l += l - d1
-                lucro += w-d1
-                banca += w+l
+                rendimento += w-d1
+                banca += rendimento+l
                 bd.write(f"{df} - win: R${round(w,2)}\n")
                 bd.write(f"{df} - loss: R${round(l,2)}\n")
             w=0
@@ -79,25 +78,30 @@ while True:
             if i== 5:
                 i=1
                 print(f"Você ja ganhou o dia!")
-                break   
+                break
+               
         if opt == 0:
             i=1
             d1= s*0.1
             print(f"Você deve usar {d1:.2f}\n")
-            bd.write(f"{dft} - Lucro: {round(lucro-(s*0.1),2)}\n-------------------------------------------------------\n")
+            bd.write(f"{dft} - Rendimento: {round(rendimento-(s*0.1),2)}\n-------------------------------------------------------\n")
         elif p == 0:
             w += d1*1.92
             l += l - d1
-            lucro += w-d1
+            rendimento += w-d1
             banca += w+l
             bd.write(f"{df} - win: R${round(w,2)}\n")
             bd.write(f"{df} - loss: R${round(l,2)}\n")
             w=0
             l=0
+    elif p == 0:
+        print("Indo para o próximo loop\n")
     else:
         print("opção invalida\n")
 
-bd.write(f"{dft} - Lucro: {round(lucro-(s*0.1),2)} / Banca: {round((banca-(s*0.1)+s),2) }\n-------------------------------------------------------\n")
+bd.write(f"{dft} - Rendimento: {round(rendimento,2)} / Banca: {round((banca+rendimento),2) }\n-------------------------------------------------------\n")
+rendimento = 0
+banca = 0
 
 # Concluir o desenvolvimento da soma e subtração para o total
 # Desenvolver um break pra parar após 3 loss seguidas de diferença entre as wins Ex: 6 wins com 3 loss consecutivas = break
