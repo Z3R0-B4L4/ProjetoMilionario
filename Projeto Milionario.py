@@ -39,7 +39,7 @@ banca_final = 0
 stop_loss = 0 # contador de derrotas para que não acabe zerando a banca de uma vez
 
 #abre o arquivo em que ficara salvo as informações
-bd = open('teste.txt','a') 
+bd = open('Gerenciamento.txt','a') 
 
 
 banca_inicial=float(input("Digite o valor da sua banca: R$")) # valor disponivel para seu investimento
