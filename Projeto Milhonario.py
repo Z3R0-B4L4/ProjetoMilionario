@@ -1,6 +1,6 @@
 #Esse é um programa que visa lucrar com base em 10% da sua banca, um jeito de lucrar mais lentamente e deixando uma maior chance de voce não acabar o dia estourando sua banca
 #caso queira operar ele com algo diferente dos 10% altere na linha 50 o valor "0.1" para quanto você ira operar (cada "0.1" é igual a 10%, ou seja, se você quiser ir pro all-win altere o valor para "1" = 100%  ou se quer ir com metade da banca, para "0.5" = 50%)
-#Esse programa tambem opera com base na tabela de boringer mas não usa todo o lucro como seria normalmente -/- O PROGRAMA PODE PRECISAR DE MELHORIAS NÃO LEVE OS RESULTADOS AO PÉ DA LETRA, OS VALORES REAIS PODEM SER UM POUCO DIFERENTES, UTILIZE-OS APENAS COMO BASE
+#Esse programa tambem opera com base na tabela de boringer mas não usa todo o lucro como seria normalmente -/- AINDA EM DESENVOLVIMENTO
 
 from datetime import datetime
 from datetime import date
@@ -34,7 +34,7 @@ print(f"Objetivo é 1 dos a1={a1*10:.2f} a2={a2*10:.2f} a3={a3*10:.2f} a4={a4*10
 print("Não precisa ser hoje nem amanhã, mas um dia o objetivo é alcançado")
 print("AJA COM CALMA E CONFIE NO SEU SONHO QUE VOCÊ IRA ALCANÇAR O SUCESSO 100% DE CERTEZA.\n")
 
-s=float(input("Digite sua banca: ")) # <--- BANCA ---><--- BANCA ---><--- BANCA ---><--- BANCA ---><--- BANCA ---><--- BANCA ---><--- BANCA ---><--- BANCA ---><--- BANCA --->
+s=10#float(input("Digite sua banca: ")) # <--- BANCA ---><--- BANCA ---><--- BANCA ---><--- BANCA ---><--- BANCA ---><--- BANCA ---><--- BANCA ---><--- BANCA ---><--- BANCA --->
 banca = s
 bd.write(f"{dft} - Banca Inicial: {s}\n")
 while True:
@@ -66,13 +66,13 @@ while True:
             opt = int(input("Você ganhou? 1 para sim 0 para não: "))
             
             if opt == 1:
-                w += d1*1.92 # Lucro de 92%
+                w += (d1*1.92)-d1 # Lucro de 92%
                 rendimento += w
                 bd.write(f"{df} - win: R${w:.2f}\n")
             elif opt == 0:
-                w += d1*1.92
+                w += (d1*1.92)-d1
                 l += l - d1
-                rendimento += w
+                rendimento += w + l
                 bd.write(f"{df} - win: R${rendimento:.2f}\n")
                 bd.write(f"{df} - loss: R${l:.2f}\n")
             w=0
