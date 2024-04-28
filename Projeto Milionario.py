@@ -45,7 +45,7 @@ bd = open('Gerenciamento.txt','a')
 banca_inicial=float(input("Digite o valor da sua banca: R$")) # valor disponivel para seu investimento
 bd.write(f"{dtf} - Banca Inicial: R${banca_inicial}\n")
 #inicio do loop, altere o numero '1' para quantos loops você desejar
-while loop < 1:
+while loop < 5:
     loop+=1
     #verifica se tem o minimo necessario para operar
     if banca_inicial < 1:
@@ -94,6 +94,9 @@ while loop < 1:
             loss = 0
             stop_loss+=1 #acrescenta a derrota
             # encerra o loop de escolha
+        if loop == 1 and escolha == 0:
+            print("Derrota na primeira operação não da, volta amanha.\n")
+            break
         if stop_loss == 3:
             print(f"Você ja perdeu o suficiente por hoje, vá descansar.\n")
             break
