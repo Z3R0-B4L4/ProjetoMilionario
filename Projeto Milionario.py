@@ -10,7 +10,7 @@ dtf=data.strftime('%d/%m/%Y') #data sem hora para deixar na linha final com o re
 
 #DA LINHA 9 ATÉ A LINA 26 VOCÊ PODE APAGAR, ELA É MAIS UM INCENTIVO DO QUE ALGO REALMENTE NECESSÁRIO
 
-# "a" é usado pra saber o total de lucro objetivo naquele dia (sabado e domingo não serão dias operaveis, descanse e aproveite a vida)
+# "a" é usado pra saber o total de lucro objetivo naquele dia (sabado e domingo não serão dias operaveis, descanse e aproveite a vida) (tentar alcançar cada "a" mensalmente)
 a1=7.59 # necessario de 10x a + pra operar com esse valor ou seja 75.00
 a2=57.64 # necessario de 10x a + pra operar com esse valor ou seja 580.00
 a3=437.70 # necessario de 10x a + pra operar com esse valor ou seja 4380.00
