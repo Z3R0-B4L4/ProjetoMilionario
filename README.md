@@ -1,3 +1,3 @@
 # ProjetoMilionario
 Gerenciador de operações de day trade
-A versão teste tem o bjetivo de corrigir os problemas do projeto, não lembro de como está a versão que deixei do projeto, provavel que a de teste esteja funcionando como deveria mesmo com erro igual ao projeto, ou pode estar corrigido
+Programa pode apresentar erros, caso encontre algum, me informe o que fez para dar o erro e o que o erro está causando, tentarei corrigi-lo.
