@@ -44,8 +44,8 @@ bd = open('Gerenciamento.txt','a')
 
 banca_inicial=float(input("Digite o valor da sua banca: R$")) # valor disponivel para seu investimento
 bd.write(f"{dtf} - Banca Inicial: R${banca_inicial}\n")
-#inicio do loop
-while loop < 5:
+#inicio do loop, altere o numero '1' para quantos loops você desejar
+while loop < 1:
     loop+=1
     #verifica se tem o minimo necessario para operar
     if banca_inicial < 1:
@@ -64,10 +64,13 @@ while loop < 5:
             bd.write(f"Entrada: R${entrada:.2f}\nWin: R${win:.2f}\n") #escreve no arquivo de texto o valor de entrada e o valor do lucro
             print(f"Você deve usar para próxima operação R${entrada:.2f} na {i}° vez")
             escolha = int(input("Você ganhou? digite 1 para sim e 0 para não\n"))
+            if i == 5 and escolha == 1: # caso voce ganhe até a ultima vez a entrada não é perdida, logo é acrescentada ao rendimento
+                rendimento+=entrada
             if escolha == 0 : # caso perca
                 i=1 # reseta o contador de wins consecultivas
                 loss-=entrada # acrescenta a entrada negativa na loss
                 rendimento+=loss # Faz a soma da perca sobre o rendimento
+                bd.write(f"Loss: R${loss:.2f}\n")
                 #reset de win e loss para que não interfira no próximo loop
                 win = 0 
                 loss = 0
