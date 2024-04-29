@@ -31,7 +31,7 @@ print("AJA COM CALMA E CONFIE NO SEU SONHO QUE VOCÊ IRA ALCANÇAR O SUCESSO 100
 #definição das variaveis
 loop = 0 # define quantas repetições o programa ira executar antes de se auto encerrar
 entrada = 0 # para a primeira entrada sempre será 10% do valor da banca
-i=1 # contador para interromper caso aja muitas vitorias consecultivas
+i=0 # contador para interromper caso aja muitas vitorias consecultivas
 win=0 # armazena o valor total da win
 loss=0 # armazena o valor da loss
 rendimento=0 # soma de win e loss
@@ -59,40 +59,51 @@ while loop < 5:
         while escolha == 1: # caso ganhe
             i+=1
             win = (entrada*1.92)-entrada # lucro de 92%
-            entrada = entrada*1.5 # entrada equivalente a entrada anterior mutiplicado por 1.5 (50%)
             rendimento+=win # acrescenta o lucro ao rendimento
             bd.write(f"Entrada: R${entrada:.2f}\nWin: R${win:.2f}\n") #escreve no arquivo de texto o valor de entrada e o valor do lucro
-            print(f"Você deve usar para próxima operação R${entrada:.2f} na {i}° vez")
-            escolha = int(input("Você ganhou? digite 1 para sim e 0 para não\n"))
-            if i == 5 and escolha == 1: # caso voce ganhe até a ultima vez a entrada não é perdida, logo é acrescentada ao rendimento
-                rendimento+=entrada
-            if escolha == 0 : # caso perca
-                i=1 # reseta o contador de wins consecultivas
+            entrada = entrada*1.5 # entrada equivalente a entrada anterior mutiplicado por 1.5 (50%)
+            if i < 5:
+                print(f"Você deve usar para próxima operação R${entrada:.2f}")
+                escolha = int(input("Você ganhou? digite 1 para sim e 0 para não\n"))
+            else:
+                if i == 5 and escolha == 1: # caso voce ganhe até a ultima vez a entrada não é perdida, logo a entrada é acrescentada ao rendimento
+                    rendimento+=entrada
+                if escolha == 0 : # caso perca
+                    i=0 # reseta o contador de wins consecultivas
+                    loss-=entrada # acrescenta a entrada negativa na loss
+                    rendimento+=loss # Faz a soma da perca sobre o rendimento
+                    bd.write(f"Loss: R${loss:.2f}\n")
+                    #reset de win e loss para que não interfira no próximo loop
+                    win = 0 
+                    loss = 0
+                    stop_loss+=1 #acrescenta a derrota
+                    # encerra o loop de escolha
+                if i==5:
+                    i=0
+                    print(f"Parabens, você ganhou muito!\n")
+                    #reset de win e loss para que não interfira no próximo loop
+                    win = 0
+                    loss = 0
+                    #reset do stop loss
+                    stop_loss=0
+                    break
+        if i < 5 and escolha == 0:
+                loss-=entrada
+                rendimento+= loss
+                bd.write(f"Entrada: R${entrada:.2f}\nLoss: R${loss:.2f}\n")
+                loss=0
+                win=0
+        if escolha ==0 and i in range(i<1):
+            if win >0:
+                loss+=entrada
+            else:
                 loss-=entrada # acrescenta a entrada negativa na loss
                 rendimento+=loss # Faz a soma da perca sobre o rendimento
-                bd.write(f"Loss: R${loss:.2f}\n")
+                bd.write(f"Entrada: R${entrada:.2f}\nLoss: R${loss:.2f}\n")
                 #reset de win e loss para que não interfira no próximo loop
                 win = 0 
                 loss = 0
                 stop_loss+=1 #acrescenta a derrota
-                # encerra o loop de escolha
-            if i==5:
-                i=1
-                print(f"Parabens, você ganhou muito!\n")
-                #reset de win e loss para que não interfira no próximo loop
-                win = 0
-                loss = 0
-                #reset do stop loss
-                stop_loss=0
-                break
-        if escolha ==0:
-            loss-=entrada # acrescenta a entrada negativa na loss
-            rendimento+=loss # Faz a soma da perca sobre o rendimento
-            bd.write(f"Entrada: R${entrada:.2f}\nLoss: R${loss:.2f}\n")
-            #reset de win e loss para que não interfira no próximo loop
-            win = 0 
-            loss = 0
-            stop_loss+=1 #acrescenta a derrota
             # encerra o loop de escolha
         if loop == 1 and escolha == 0:
             print("Derrota na primeira operação não da, volta amanha.\n")
